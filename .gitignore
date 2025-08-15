@@ -1,0 +1,24 @@
+# Ambiente virtual
+venv/
+*.pyc
+__pycache__/
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# Configurações locais do Django
+*.sqlite3
+*.log
+
+# Pastas de cache / IDE
+*.idea/
+.vscode/
+
+# Arquivos de teste
+*.coverage
+htmlcov/
+coverage.xml
+*.egg-info/
+dist/
+build/
