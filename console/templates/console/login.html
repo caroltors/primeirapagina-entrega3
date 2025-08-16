@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load widget_tweaks %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — Console Admin</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Paleta de cores */
+        :root {
+            --dark-blue: #0A1F44;
+            --purple: #6A1B9A;
+            --off-white: #F9F9F9;
+            --light-gray: #E0E0E0;
+        }
+
+        body {
+            background-color: var(--off-white);
+        }
+
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-card {
+            background-color: var(--off-white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-card .btn-primary {
+            background-color: var(--dark-blue);
+            border: none;
+        }
+
+        .login-card .btn-primary:hover {
+            background-color: var(--purple);
+        }
+
+        .form-control:focus {
+            border-color: var(--purple);
+            box-shadow: 0 0 0 0.2rem rgba(106,27,154,0.25);
+        }
+
+        /* Classe para logo (quando for inserir a imagem) */
+        .logo {
+            display: block;
+            margin: 0 auto 1.5rem auto;
+            max-width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+
+            <!-- 
+            Implementação comentada para caso seja adicionado logo.
+            1. Colocar arquivo da logo em: console/static/console/logo.png
+            2. Inseriir 'django.contrib.staticfiles' em INSTALLED_APPS
+            3. Inserir STATIC_URL = '/static/' em settings.py
+            4. Descomentar a linha abaixo para exibir a logo:
+            -->
+            <!-- <img src="{% static 'console/logo.png' %}" alt="Logo" class="logo"> -->
+
+            <h3 class="text-center mb-4" style="color: var(--dark-blue);">Login</h3>
+
+            <!-- Formulário de login -->
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    {{ form.username.label_tag }}
+                    {{ form.username|add_class:"form-control" }}
+                </div>
+                <div class="mb-3">
+                    {{ form.password.label_tag }}
+                    {{ form.password|add_class:"form-control" }}
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Entrar</button>
+
+                {% if form.errors %}
+                <div class="alert alert-danger mt-3">
+                    Invalid username or password.
+                </div>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (opcional para componentes interativos) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

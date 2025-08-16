@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'console', # app console
+    'widget_tweaks', # customizar widgets de formulários
 ]
 
 MIDDLEWARE = [
@@ -121,3 +122,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Redirecionamento após login/logout
+LOGIN_REDIRECT_URL = '/'         # Vai para o dashboard após login
+LOGOUT_REDIRECT_URL = '/login/' # Redireciona para login após logout
