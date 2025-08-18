@@ -88,7 +88,7 @@ def vendorvpn_create(request):
     else:
         form = VendorVPNForm()
 
-    return render(request, 'console/vendorvpn_form.html', {'form': form, 'form_title': 'Adicionar VendorVPN'})
+    return render(request, 'console/vendorvpn_form.html', {'form': form, 'title': 'Adicionar VendorVPN'})
 
 # Atualizar VendorVPN - UPDATE VIEW
 @login_required
@@ -102,7 +102,7 @@ def vendorvpn_update(request, pk):
     else:
         form = VendorVPNForm(instance=vendorvpn)
 
-    return render(request, 'console/vendorvpn_form.html', {'form': form, 'form_title': 'Editar VendorVPN'})
+    return render(request, 'console/vendorvpn_form.html', {'form': form, 'title': 'Editar VendorVPN'})
 
 # Deletar VendorVPN via modal - DELETE VIEW
 @login_required

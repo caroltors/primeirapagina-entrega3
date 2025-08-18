@@ -29,7 +29,7 @@ class VendorVPNForm(forms.ModelForm):
         fields = ['vendor_name', 'issue_date', 'expiration_date', 'status']
         labels = {
             'vendor_name': 'Nome do Fornecedor',
-            'issue_date': 'Data de Emissão',
+            'issue_date': 'Data de Renovação',
             'expiration_date': 'Data de Expiração',
             'status': 'Status'
         }
