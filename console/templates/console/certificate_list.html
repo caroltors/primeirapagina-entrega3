@@ -1,0 +1,78 @@
+{% extends 'console/base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Lista de Certificados</h2>
+
+    {% if certificates %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Certificado</th>
+                <th>Sistema relacionado</th>
+                <th>Data de emissão</th>
+                <th>Data de expiração</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for certificate in certificates %}
+            <tr>
+                <td>{{ certificate.name }}</td>
+                <td>{{ certificate.related_system }}</td>
+                <td>{{ certificate.issue_date }}</td>
+                <td>
+                    {{ certificate.expiration_date }}
+                    {% if certificate.days_to_expire < 0 %}
+                        <!-- Expirado -->
+                        <span class="badge bg-danger ms-2">Expirado</span>
+                    {% elif certificate.days_to_expire <= 7 %}
+                        <!-- Alerta de 7 dias ou menos -->
+                        <span class="badge bg-warning text-dark ms-2">{{ certificate.days_to_expire }} dias</span>
+                    {% endif %}
+                </td>
+                <td>{{ certificate.status }}</td>
+                <td>
+                    <a href="{% url 'certificate_edit' certificate.pk %}" class="btn btn-sm btn-warning">Editar</a>
+                    <!-- Botão para abrir o modal -->
+                    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ certificate.pk }}">
+                        Excluir
+                    </button>
+
+                    <!-- Modal de confirmação -->
+                    <div class="modal fade" id="deleteModal{{ certificate.pk }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ certificate.pk }}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteModalLabel{{ certificate.pk }}">Confirmar ação</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Confirma a exclusão do certificado <strong>{{ certificate.name }}</strong>?
+                                </div>
+                                <div class="modal-footer justify-content-center"> <!-- Centralizado -->
+                                    <form method="post" action="{% url 'certificate_delete' certificate.pk %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger">Excluir</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>Nenhum certificado registrado.</p>
+    {% endif %}
+
+    <!-- Botão abaixo da tabela, centralizado -->
+    <div class="text-center mt-4">
+        <a href="{% url 'certificate_create' %}" class="btn btn-primary">Adicionar certificado</a>
+    </div>
+</div>
+{% endblock %}

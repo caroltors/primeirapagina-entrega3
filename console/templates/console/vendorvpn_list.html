@@ -1,0 +1,78 @@
+{% extends 'console/base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Lista de VPN de Fornecedores</h2>
+
+    {% if vendorvpns %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Fornecedor</th>
+                <th>Data de renovação</th>
+                <th>Data de expiração</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vpn in vendorvpns %}
+            <tr>
+                <td>{{ vpn.vendor_name }}</td>
+                <td>{{ vpn.issue_date }}</td>
+                <td>
+                    {{ vpn.expiration_date }}
+                    {% if vpn.is_alert %}
+                        <span class="badge {% if vpn.days_to_expire < 0 %}bg-danger{% else %}bg-warning text-dark{% endif %} ms-2">
+                            {% if vpn.days_to_expire < 0 %}
+                                Expired
+                            {% else %}
+                                {{ vpn.days_to_expire }} dias
+                            {% endif %}
+                        </span>
+                    {% endif %}
+                </td>
+                <td>{{ vpn.status }}</td>
+                <td>
+                    <a href="{% url 'vendorvpn_edit' vpn.pk %}" class="btn btn-sm btn-warning">Editar</a>
+                    <!-- Botão para abrir o modal -->
+                    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ vpn.pk }}">
+                        Excluir
+                    </button>
+
+                    <!-- Modal de confirmação -->
+                    <div class="modal fade" id="deleteModal{{ vpn.pk }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ vpn.pk }}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteModalLabel{{ vpn.pk }}">Confirmar ação</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Confirma a exclusão do fornecedor <strong>{{ vpn.vendor_name }}</strong>?
+                                </div>
+                                <div class="modal-footer justify-content-center">
+                                    <form method="post" action="{% url 'vendorvpn_delete' vpn.pk %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger">Excluir</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Fim do modal -->
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>Nenhum fornecedor registrado.</p>
+    {% endif %}
+
+    <!-- Botão abaixo da tabela, centralizado -->
+    <div class="text-center mt-4">
+        <a href="{% url 'vendorvpn_create' %}" class="btn btn-primary">Adicionar fornecedor</a>
+    </div>
+</div>
+{% endblock %}

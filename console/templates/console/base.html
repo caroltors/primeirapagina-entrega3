@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Console Admin{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --dark-blue: #0A1F44;
+            --purple: #6A1B9A;
+            --off-white: #F9F9F9;
+            --light-gray: #E0E0E0;
+        }
+
+        body {
+            background-color: var(--off-white);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .navbar, footer {
+            background-color: var(--dark-blue);
+        }
+
+        .navbar a.nav-link, .navbar .navbar-brand, footer {
+            color: var(--off-white);
+        }
+
+        .navbar a.nav-link:hover, .btn-logout:hover {
+            color: var(--purple);
+        }
+
+        .main-container {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        /* Botão estilo link para logout */
+        .btn-logout {
+            background: none;
+            border: none;
+            padding: 0;
+            color: var(--off-white);
+            cursor: pointer;
+        }
+
+        /* Ícone hambúrguer branco */
+        .navbar-toggler {
+            border-color: var(--off-white);
+        }
+        .navbar-toggler-icon {
+            filter: invert(100%);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container d-flex justify-content-between align-items-center">
+            <!-- Console Admin fixo à esquerda -->
+            <a class="navbar-brand fw-bold me-4" href="{% url 'dashboard' %}">Console Admin</a>
+
+            <!-- Botão hamburger para telas pequenas -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Menu colapsável -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <!-- <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li> -->
+                    <li class="nav-item"><a class="nav-link" href="{% url 'certificate_list' %}">Certificados</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'vendorvpn_list' %}">VPNs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'application_list' %}">Aplicações</a></li>
+
+                    <!-- Logout via POST -->
+                    <li class="nav-item ms-lg-3">
+                        <form method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-logout nav-link">
+                                <i class="bi bi-box-arrow-right"></i> Logout
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Conteúdo principal -->
+    <div class="main-container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Rodapé -->
+    <footer>
+        &copy; {{ current_year }} Console Admin
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap Icons (para o ícone de logout) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</body>
+</html>
