@@ -1,0 +1,120 @@
+{% extends 'console/base.html' %}
+{% block content %}
+<div class="container-fluid mt-4">
+
+    <!-- Título do Dashboard -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 text-dark">Dashboard</h1>
+    </div>
+
+    <!-- Blocos de resumo -->
+    <div class="row g-4 mb-4">
+        {% comment %} Certificados {% endcomment %}
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100" style="background-color: #ffffff; box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);">
+                <div class="card-header text-dark fw-bold">Certificados</div>
+                <div class="card-body">
+                    <p>Total: <strong>{{ certificates|length }}</strong></p>
+                    <ul class="list-group list-group-flush">
+                        {% for cert in certificates %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ cert.name }}
+                            {% if cert.is_in_alert %}
+                            <span class="badge bg-warning text-dark">Expira em {{ cert.days_to_expire }} dias</span>
+                            {% endif %}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        {% comment %} VPNs {% endcomment %}
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100" style="background-color: #ffffff; box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);">
+                <div class="card-header text-dark fw-bold">VPNs de Fornecedores</div>
+                <div class="card-body">
+                    <p>Total: <strong>{{ vendorvpns|length }}</strong></p>
+                    <ul class="list-group list-group-flush">
+                        {% for vpn in vendorvpns %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ vpn.vendor_name }}
+                            {% if vpn.is_in_alert %}
+                            <span class="badge bg-warning text-dark">Expira em {{ vpn.days_to_expire }} dias</span>
+                            {% endif %}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        {% comment %} Aplicações {% endcomment %}
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100" style="background-color: #ffffff; box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);">
+                <div class="card-header text-dark fw-bold">Aplicações</div>
+                <div class="card-body">
+                    <p>Total: <strong>{{ applications|length }}</strong></p>
+                    <ul class="list-group list-group-flush">
+                        {% for app in applications %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ app.app_name }}
+                            {% if app.is_in_alert %}
+                            <span class="badge bg-warning text-dark">Prazo em {{ app.days_to_expire }} dias</span>
+                            {% endif %}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alertas Recentes -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm border-0" style="background-color: #ffffff; box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);">
+                <div class="card-header text-dark fw-bold">Alertas Recentes</div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        {% for cert in certificates %}
+                            {% if cert.is_in_alert %}
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div>
+                                    <strong>{{ cert.name }}</strong> - {{ cert.related_system }}<br>
+                                    Emissão: {{ cert.issue_date|date:"d/m/Y" }} | Expiração: {{ cert.expiration_date|date:"d/m/Y" }}
+                                </div>
+                                <span class="badge bg-warning text-dark fw-semibold">{{ cert.days_to_expire }} dias</span>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% for vpn in vendorvpns %}
+                            {% if vpn.is_in_alert %}
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div>
+                                    <strong>{{ vpn.vendor_name }}</strong><br>
+                                    Expira em: {{ vpn.expiration_date|date:"d/m/Y" }}
+                                </div>
+                                <span class="badge bg-warning text-dark fw-semibold">{{ vpn.days_to_expire }} dias</span>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% for app in applications %}
+                            {% if app.is_in_alert %}
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div>
+                                    <strong>{{ app.app_name }}</strong><br>
+                                    Prazo: {{ app.deadline_date|date:"d/m/Y" }}
+                                </div>
+                                <span class="badge bg-warning text-dark fw-semibold">{{ app.days_to_expire }} dias</span>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
