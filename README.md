@@ -60,22 +60,31 @@ root/
 │   │   └── console/
 │   │       ├── base.html
 │   │       ├── dashboard.html
+│   │       ├── login.html
 │   │       ├── certificate_list.html
+│   │       ├── certificate_form.html
 │   │       ├── vendorvpn_list.html
-│   │       └── application_list.html
-│   ├── views.py
+│   │       ├── vendorvpn_form.html
+│   │       ├── application_list.html
+│   │       └── application_form.html
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── forms.py
+│   ├── models.py
+│   ├── tests.py
 │   ├── urls.py
-│   └── forms.py
-│
+│   └── views.py
+│ 
 ├── console_admin/
+│   ├── __init__.py
+│   ├── asgi.py
 │   ├── settings.py
 │   ├── urls.py
-│   ├── wsgi.py
-│   └── asgi.py
+│   └── wsgi.py
 │
 ├── manage.py
 ├── requirements.txt
-├── db.sqlite3
 └── README.md
 ```
 
