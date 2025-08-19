@@ -26,6 +26,31 @@ def certificate_list(request):
 
     return render(request, 'console/certificate_list.html', {'certificates': certificates})
 
+# TODO: View de pesquisa de certificados - Search View 
+# @login_required  # Garante que apenas usuários autenticados possam acessar a página
+# def certificate_list(request):
+#     # Pega o valor do parâmetro "q" que vem pela URL (ex: ?q=teste)
+#     query = request.GET.get("q")
+    
+#     # Busca todos os certificados do banco, ordenando pela data de expiração
+#     certificates = Certificate.objects.all().order_by('expiration_date')
+    
+#     # Se o usuário digitou algo na pesquisa, filtra os certificados pelo nome
+#     if query:
+#         certificates = certificates.filter(name__icontains=query)
+
+#     # Para cada certificado encontrado, calcula os dias restantes até expirar
+#     for cert in certificates:
+#         cert.days_to_expire = (cert.expiration_date - timezone.now().date()).days
+#         # Marca como alerta se estiver faltando 7 dias ou menos para expirar
+#         cert.is_alert = cert.days_to_expire <= 7
+
+#     # Renderiza o template e envia a lista de certificados + termo pesquisado
+#     return render(request, 'console/certificate_list.html', {
+#         'certificates': certificates,  # Lista de certificados filtrados/ordenados
+#         'query': query                 # Termo de pesquisa atual (pra manter no input)
+#     })
+
 # Criar certificado - CREATE VIEW
 @login_required
 def certificate_create(request):

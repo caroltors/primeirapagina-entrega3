@@ -1,8 +1,20 @@
 {% extends 'console/base.html' %}
 {% block content %}
 <div class="container mt-4">
-    <h2>Lista de Certificados</h2>
+    <h2 class="mb-3">Lista de Certificados</h2>
 
+    <!-- Caixa de pesquisa
+    <form method="get" class="d-flex mb-4">
+        <input 
+            type="text" 
+            name="q" 
+            class="form-control me-2" 
+            placeholder="Pesquisar por nome do certificado" 
+            value="{{ request.GET.q|default:'' }}">
+        <button class="btn btn-primary" type="submit">Buscar</button>
+    </form> -->
+
+    <!-- Tabela -->
     {% if certificates %}
     <table class="table table-striped">
         <thead>

@@ -1,7 +1,7 @@
 {% extends 'console/base.html' %}
 {% block content %}
 <div class="container mt-4">
-    <h2>Lista de VPN de Fornecedores</h2>
+    <h2 class="mb-3">Lista de VPN de Fornecedores</h2>
 
     {% if vendorvpns %}
     <table class="table table-striped">
@@ -24,7 +24,7 @@
                     {% if vpn.is_alert %}
                         <span class="badge {% if vpn.days_to_expire < 0 %}bg-danger{% else %}bg-warning text-dark{% endif %} ms-2">
                             {% if vpn.days_to_expire < 0 %}
-                                Expired
+                                Expirado
                             {% else %}
                                 {{ vpn.days_to_expire }} dias
                             {% endif %}
